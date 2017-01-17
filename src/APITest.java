@@ -19,7 +19,7 @@ public class APITest {
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
 		
-		Query query = new Query("china climate change");
+		Query query = new Query("japan climate change");
 		query.setCount(5);
 		QueryResult result;
 		try
