@@ -13,14 +13,15 @@ import twitter4j.conf.ConfigurationBuilder;
 public class APITest {
 	public static void main(String[] args) {
 		// APITest object = new APITest();
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("b32CCPSnEvQHDraYu51WbQmcH")
-				.setOAuthConsumerSecret("WEooM1QDYSI4oFMp8fXRgkcaQoC60iQ4BmMmM8g3yEcRsS55v5")
-				.setOAuthAccessToken("816034614263181312-dZHCA1XJJfj8ZANU48rOW3sHIUMhxTB")
-				.setOAuthAccessTokenSecret("11B68yMNbSqG9WbHMdZFlFU4QCCPL4PlPb6lapDA8uJWN");
-
-		TwitterFactory tf = new TwitterFactory(cb.build());
-		Twitter twitter = tf.getInstance();
+//		ConfigurationBuilder cb = new ConfigurationBuilder();
+//		cb.setDebugEnabled(true).setOAuthConsumerKey("b32CCPSnEvQHDraYu51WbQmcH")
+//				.setOAuthConsumerSecret("WEooM1QDYSI4oFMp8fXRgkcaQoC60iQ4BmMmM8g3yEcRsS55v5")
+//				.setOAuthAccessToken("816034614263181312-dZHCA1XJJfj8ZANU48rOW3sHIUMhxTB")
+//				.setOAuthAccessTokenSecret("11B68yMNbSqG9WbHMdZFlFU4QCCPL4PlPb6lapDA8uJWN");
+//
+//		TwitterFactory tf = new TwitterFactory(cb.build());
+//		Twitter twitter = tf.getInstance();
+		Twitter twitter = TwitterFactory.getSingleton();
 		GeoLocation US = new GeoLocation(36.7783, 119.4179);
 		GeoQuery america = new GeoQuery(US);
 		Query query = new Query("climate change");
