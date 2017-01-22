@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.Query;
@@ -27,7 +27,7 @@ public class Main {
 		String curCountry = "America";
 		Query query = new Query("climate change").geoCode(CountryKeys.getLocation(curCountry),
 				CountryKeys.getRadius(curCountry), "mi");
-		query.setCount(100);
+		query.setCount(1);
 		return query;
 	}
 
@@ -68,24 +68,25 @@ public class Main {
 		{
 			ObjectOutputStream output = new ObjectOutputStream(
 					new BufferedOutputStream(new FileOutputStream(new File("storedTweets.txt"))));
-			boolean flag;
-			for (Status status : Tweets)
-			{
-				flag = false;
-				for (Status existingStatus : existingTweets)
-				{
-					if (status.getText().equals(existingStatus.getText()))
-					{
-						flag = true;
-					}
-				}
-				if(flag == false){
-					existingTweets.add(status);
-				}
-			}
-			for(Status status : existingTweets){
-				output.writeObject(status);
-			}
+//			boolean flag;
+//			for (Status status : Tweets)
+//			{
+//				flag = false;
+//				for (Status existingStatus : existingTweets)
+//				{
+//					if (status.getText().equals(existingStatus.getText()))
+//					{
+//						flag = true;
+//					}
+//				}
+//				if(flag == false){
+//					existingTweets.add(status);
+//				}
+//			}
+//			for(Status status : existingTweets){
+//				output.writeObject(status);
+//			}
+			output.writeObject(Tweets.get(0));
 			output.close();
 		} catch (Exception e)
 		{
@@ -98,9 +99,14 @@ public class Main {
 		try
 		{
 			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("storedTweets.txt"))));
-			if(input.available() != 0)
+			tweets = new ArrayList<Status>();
+			if(input.available() != -1)
 				tweets.add((Status) input.readObject());
-			input.close();
+			else{
+				input.close();
+				return null;
+			}
+
 		} catch (Exception e)
 		{
 			e.printStackTrace();
