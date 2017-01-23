@@ -1,3 +1,9 @@
+//Data Collection Dates and Times
+
+//America: 1/22/17 6:00
+//Mexico:  1/22/17 6:45 somehow a guy in Wales got a Tweet in this section
+//Brazil:  1/22/17 7:41 only one tweet from one guy who's not even from Brazil that got retweeted 100 times :( (can't use brazil now)
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,18 +22,28 @@ import twitter4j.TwitterFactory;
 
 public class Main {
 	private static Twitter twitter;
+	private static File sampleStorage;
 
 	public static void main(String[] args) {
 		CountryKeys.init();
+		sampleStorage = new File("Australia.txt");
+		try
+		{
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(sampleStorage, true));
+			out.close();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		twitter = TwitterFactory.getSingleton();
 		getTweets();
 	}
 
 	private static Query getQuery(String keywords) {
-		String curCountry = "America";
+		String curCountry = "Australia";
 		Query query = new Query("climate change").geoCode(CountryKeys.getLocation(curCountry),
 				CountryKeys.getRadius(curCountry), "mi");
-		query.setCount(1);
+		query.setCount(1000);
 		return query;
 	}
 
@@ -63,30 +79,34 @@ public class Main {
 	}
 
 	private static void StoreData(List<Status> Tweets) {
-		List<Status> existingTweets = getStoredData("storedTweets.txt");
+//		List<Status> existingTweets = getStoredData(sampleStorage);
 		try
 		{
 			ObjectOutputStream output = new ObjectOutputStream(
-					new BufferedOutputStream(new FileOutputStream(new File("storedTweets.txt"))));
-//			boolean flag;
-//			for (Status status : Tweets)
-//			{
+					new BufferedOutputStream(new FileOutputStream(sampleStorage, true)));
+			boolean flag;
+			for (Status status : Tweets)
+			{
+				output.writeObject(status);
 //				flag = false;
-//				for (Status existingStatus : existingTweets)
-//				{
-//					if (status.getText().equals(existingStatus.getText()))
+//				if (!existingTweets.isEmpty())
+//					for (Status existingStatus : existingTweets)
 //					{
-//						flag = true;
+//						if (status.getText().equals(existingStatus.getText()))
+//						{
+//							flag = true;
+//						}
 //					}
-//				}
-//				if(flag == false){
+//				if (flag == false)
+//				{
 //					existingTweets.add(status);
 //				}
-//			}
-//			for(Status status : existingTweets){
+			}
+//			for (Status status : existingTweets)
+//			{
 //				output.writeObject(status);
 //			}
-			output.writeObject(Tweets.get(0));
+//			output.writeObject(Tweets.get(0));
 			output.close();
 		} catch (Exception e)
 		{
@@ -94,19 +114,19 @@ public class Main {
 		}
 	}
 
-	private static List<Status> getStoredData(String fileName) {
-		List<Status> tweets = null;
+	private static List<Status> getStoredData(File file) {
+		List<Status> tweets = new ArrayList<Status>();
 		try
 		{
-			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("storedTweets.txt"))));
-			tweets = new ArrayList<Status>();
-			if(input.available() != -1)
+			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+			if (input.available() > 0)
 				tweets.add((Status) input.readObject());
-			else{
+			else
+			{
 				input.close();
 				return null;
 			}
-
+			input.close();
 		} catch (Exception e)
 		{
 			e.printStackTrace();

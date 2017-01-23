@@ -18,16 +18,20 @@ public class CountryKeys {
 //		countries.put("China", new GeoLocation(35.8617, 104.1954));
 		countries.put("Mexico", new GeoLocation(23.6345, -102.5528));
 		countries.put("India", new GeoLocation(20.5937, 78.9629));
-		countries.put("Brazil", new GeoLocation(-14.2350, -51.9253));
+		countries.put("Australia", new GeoLocation(-25.2744, 133.7751));
+		countries.put("South Africa", new GeoLocation(-30.5595, 22.9375));
+//		countries.put("Brazil", new GeoLocation(-14.2350, -51.9253));
 		
 		radii = new HashMap<String, Integer>();
 //		radii.put("California", 200);
 		radii.put("America", 1300);
 		radii.put("UK", 400);
-		radii.put("China", 2000);
-		radii.put("Mexico", 1000);
+//		radii.put("China", 2000);
+		radii.put("Mexico", 300);
 		radii.put("India", 1500);
-		radii.put("Brazil", 1200);
+		radii.put("Australia", 1200);
+		radii.put("South Africa", 300);
+//		radii.put("Brazil", 600);
 	}
 	
 	public static int getRadius(String country){
